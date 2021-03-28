@@ -1,4 +1,5 @@
 %% INPUT
+%% NO HEJKA
 clear();
 
 %  info = audioinfo('samples/background.wav')
