@@ -6,7 +6,7 @@ info = audioinfo('samples/sample.wav')
 [y,Fs] = audioread('samples/sample.wav');
 
 %% BINARIZATION
-% PRÓBY BINARYZACJI DANYCH
+% PRï¿½BY BINARYZACJI DANYCH
 % fid  = fopen('background.wav', 'r');
 % data = fread(fid, [1, Inf], 'uint8');
 % fclose(fid);
@@ -82,6 +82,7 @@ end
 % xlabel('(i)')
 % title('x[i] vs. i')
 
+%GIT DLA MATLABA NIE JEST OPTYMALNY 
 
 P=2^16;
 
