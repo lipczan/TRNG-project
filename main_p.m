@@ -6,7 +6,7 @@ info = audioinfo('samples/sample.wav')
 [y,Fs] = audioread('samples/sample.wav');
 
 %% BINARIZATION
-%  PRï¿½BY BINARYZACJI DANYCH
+% PRÓBY BINARYZACJI DANYCH
 % fid  = fopen('background.wav', 'r');
 % data = fread(fid, [1, Inf], 'uint8');
 % fclose(fid);
@@ -82,7 +82,6 @@ end
 % xlabel('(i)')
 % title('x[i] vs. i')
 
-%GIT DLA MATLABA NIE JEST OPTYMALNY 
 
 P=2^16;
 
@@ -91,6 +90,13 @@ P=2^16;
 K=1000;
 z=bitxor(floor(x.*P), floor(P*abs(y)))/P;
 
+s = z>0.5; % najprostsza binaryzacja 
+for i=1:(N/8) %konwersja bitow na liczby 8 bitowe
+    a = (8*i)-7;
+    b = 8*i;
+    numb(i) = bi2de(s(a:b));
+end
+
 subplot(4,1,4)
-histogram(z);
+histogram(numb,256);
 
