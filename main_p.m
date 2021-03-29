@@ -26,6 +26,7 @@ xlabel('Time')
 ylabel('Audio Signal')
  
 %% normalized
+% histogram z uint8 przed mapa chaotyczna
 subplot(4,1,2)
 histogram(y);
 subplot(4,1,3)
@@ -48,7 +49,8 @@ for n=1:Nyy
 end
 
 ch=bitxor(floor(x.*P), floor(P*abs(y)))/P;
- 
+
+% histogram po mapie chaotycznej z double 
 s = ch>0.5; % najprostsza binaryzacja 
 for i=1:(Nyy/8) %konwersja bitow na liczby 8 bitowe
     a = (8*i)-7;
