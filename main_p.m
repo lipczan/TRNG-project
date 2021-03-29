@@ -1,14 +1,13 @@
 %% INPUT
 clear(); 
 
-info = audioinfo('samples/karol_halasuje.wav')
-[y,Fsy] = audioread('samples/karol_halasuje.wav');
+info = audioinfo('samples/background.wav')
+[y,Fsy] = audioread('samples/background.wav');
 
 %to uint16
-[z,Fsz] = audioread('samples/karol_halasuje.wav','native');
-
-z=transpose(z); %transpose
-z(2:2)=[]; 
+[z,Fsz] = audioread('samples/background.wav','native');
+z_new=transpose(z); %transpose
+z(1:1)=[]; 
 u8=typecast(z,'uint8');
 
 %% origin signal
@@ -30,8 +29,8 @@ ylabel('Audio Signal')
 subplot(4,1,2)
 histogram(y);
 subplot(4,1,3)
-histogram(u8,'Normalization','probability');
- 
+histogram(z,'Normalization','probability')
+
 %% POST-PROCESING
 x0=0.001;
 r=4;
