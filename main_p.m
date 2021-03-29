@@ -1,59 +1,56 @@
 %% INPUT
 clear(); 
 
-% info = audioinfo('samples/background.wav')
-% [y,Fs] = audioread('samples/background.wav');
-% 
-% 
-% info = audioinfo('samples/ojcze_nasz.wav')
-% [y,Fs] = audioread('samples/ojcze_nasz.wav');
-
 info = audioinfo('samples/karol_halasuje.wav')
-[y,Fs] = audioread('samples/karol_halasuje.wav');
+[y,Fsy] = audioread('samples/karol_halasuje.wav');
 
-%% SIGNAL
+%to uint16
+[z,Fsz] = audioread('samples/karol_halasuje.wav','native');
+
+z=transpose(z); %transpose
+z(2:2)=[]; 
+u8=typecast(z,'uint8');
+
+%% origin signal
+% display
 figure('Renderer', 'painters', 'Position', [10 10 900 600]);
 
 y = y(:, 1);
 y = transpose(y);
-N=length(y);
-t=(0:N-1)/Fs;
+Ny=length(y);
+ty=(0:Ny-1)/Fsy;
 
 subplot(4,1,1)
-plot(t,y)
+plot(ty,y)
 xlabel('Time')
 ylabel('Audio Signal')
-
-% normalizacja
+ 
+%% normalized
 subplot(4,1,2)
 histogram(y);
 subplot(4,1,3)
-histogram(y,'Normalization','probability');
-
-%% POSTPROCESING
+histogram(u8,'Normalization','probability');
+ 
+%% POST-PROCESING
 x0=0.001;
 r=4;
 P=2^16;
+K=1000;
 
-rozmiar = size(y); 
-B = rozmiar(2);
-
-N=B-1;
-% zmiana parametr?w mapy chaotycznej w zale?no?ci od pliku audio
-
+size_y = size(y); 
+By = size_y(2);
+ 
+Nyy=By-1;
+ 
 x(1)=x0;
-for n=1:N
+for n=1:Nyy
     x(n+1)=r.*x(n).*(1-x(n));
 end
 
-%x - chaotic map
-%y - samples
-
-K=1000;
-z=bitxor(floor(x.*P), floor(P*abs(y)))/P;
-
-s = z>0.5; % najprostsza binaryzacja 
-for i=1:(N/8) %konwersja bitow na liczby 8 bitowe
+ch=bitxor(floor(x.*P), floor(P*abs(y)))/P;
+ 
+s = ch>0.5; % najprostsza binaryzacja 
+for i=1:(Nyy/8) %konwersja bitow na liczby 8 bitowe
     a = (8*i)-7;
     b = 8*i;
     numb(i) = bi2de(s(a:b));
@@ -61,4 +58,3 @@ end
 
 subplot(4,1,4)
 histogram(numb,256);
-
