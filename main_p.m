@@ -1,6 +1,5 @@
 %% INPUT
-clear();
-%hej
+clear(); 
 
 % info = audioinfo('samples/background.wav')
 % [y,Fs] = audioread('samples/background.wav');
